@@ -1,4 +1,4 @@
-import { HashOptions } from "./common.ts";
+import type { HashOptions } from "./common.ts";
 import * as internal from "./internal.ts";
 
 export * from "./common.ts";

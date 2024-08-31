@@ -1,6 +1,6 @@
 {
 	"name": "@felix/argon2",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"exports": "./mod.ts",
 	"tasks": {
 		"samples": "deno run -A --unstable ./examples/hash-with-options.ts && deno run -A --unstable ./examples/hash.ts && deno run -A --unstable ./examples/verify.ts",
@@ -10,9 +10,9 @@
 		"build": "cargo build --release"
 	},
 	"imports": {
-		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.0.5",
-		"@std/assert": "jsr:@std/assert@^0.219.1",
-		"@std/io": "jsr:@std/io@^0.219.1",
+		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.0.6",
+		"@std/assert": "jsr:@std/assert@^1.0.3",
+		"@std/io": "jsr:@std/io@^0.224.6",
 		"argon2_ffi": "./mod.ts"
 	},
 	"fmt": {
@@ -20,5 +20,13 @@
 		"exclude": [
 			"./target/"
 		]
-	}
+	},
+	"publish": {
+    "include": [
+      "LICENSE",
+      "README.md",
+      "lib/**/*.ts",
+      "mod.ts"
+    ]
+  }
 }

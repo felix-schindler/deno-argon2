@@ -1,6 +1,6 @@
 import { assert } from "@std/assert";
 
-import { Variant, Version } from "./common.ts";
+import type { Variant, Version } from "./common.ts";
 
 interface AssertArgon2EncodedOptions {
 	variant: Variant;

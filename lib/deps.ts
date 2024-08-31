@@ -1,4 +1,1 @@
-export {
-	dlopen,
-	type FetchOptions,
-} from "@denosaurs/plug";
+export { dlopen, type FetchOptions } from "@denosaurs/plug";

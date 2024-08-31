@@ -5,7 +5,6 @@ const password =
 const hashed =
 	"$argon2i$v=19$m=4096,t=3,p=1$i8Pd309cCOP75oN8vz8FHA$qUk1NgsxOmz3nWc54jyuOnr+3hHbZz3k0Sb13id7Ai8";
 
-// #region Argon2
 Deno.bench({
 	name: "hash argon2i",
 	group: "hashing",
@@ -94,4 +93,3 @@ Deno.bench({
 		await verify(hashed, password);
 	},
 });
-// #endregion

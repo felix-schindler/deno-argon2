@@ -1,4 +1,4 @@
-import { HashOptions, MIN_SALT_SIZE, version } from "./common.ts";
+import { type HashOptions, MIN_SALT_SIZE, version } from "./common.ts";
 import { Argon2Error, Argon2ErrorType } from "./error.ts";
 import { dlopen, type FetchOptions } from "./deps.ts";
 
@@ -60,7 +60,7 @@ function readAndFreeBuffer(ptr: Deno.PointerValue): Uint8Array {
 		const buf = new Uint8Array(len);
 		ptrView.copyInto(buf, 4);
 
-		lib.symbols.free_buf(ptr, len + 4);
+		lib.symbols.free_buf(ptr, BigInt(len + 4));
 
 		return buf;
 	}
@@ -106,7 +106,7 @@ export async function hash(
 
 	const result_buf_ptr = await lib.symbols.hash(
 		args,
-		args.byteLength,
+		BigInt(args.byteLength),
 	);
 
 	const result = JSON.parse(
@@ -138,7 +138,7 @@ export async function verify(
 
 	const result_buf_ptr = await lib.symbols.verify(
 		args,
-		args.byteLength,
+		BigInt(args.byteLength),
 	);
 
 	const result = JSON.parse(
