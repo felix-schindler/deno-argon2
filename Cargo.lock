@@ -54,7 +54,7 @@ checksum = "22ec99545bb0ed0ea7bb9b8e1e9122ea386ff8a48c0922e43f36d45ab09e0e80"
 
 [[package]]
 name = "deno-argon2"
-version = "1.0.6"
+version = "1.0.7"
 dependencies = [
  "bytes",
  "rust-argon2",

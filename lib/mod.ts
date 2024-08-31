@@ -1,3 +1,16 @@
+/**
+ * This module contains the default `hash` and `verify` functions.
+ * @module
+ *
+ * @example
+ * ```ts
+ * import { hash, verify } from "@felix/argon2";
+ *
+ * const hashedPassword = await hash("Geheim!123")
+ * const isValid = await verify(hashedPassword, "Geheim!123")
+ * ```
+ */
+
 import type { HashOptions } from "./common.ts";
 import * as internal from "./internal.ts";
 

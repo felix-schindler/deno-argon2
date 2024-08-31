@@ -1,4 +1,9 @@
 /**
+ * This module contains custom errors for Argon2 operations.
+ * @module
+ */
+
+/**
  * Argon2ErrorType defines the possible types of errors that can occur when using the Argon2 hashing algorithm.
  */
 export enum Argon2ErrorType {

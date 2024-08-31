@@ -1,3 +1,8 @@
+/**
+ * This module contains types to configure argon2 and hashing operations.
+ * @module
+ */
+
 /** Represents the minimum size required for the salt used in hashing operations. It ensures that the salt is sufficiently large to provide adequate security. */
 export const MIN_SALT_SIZE = 8;
 
@@ -62,5 +67,5 @@ export interface HashOptions<T extends {} = {}> {
  * Returns the current version of the library.
  */
 export function version(): string {
-	return "1.0.6";
+	return "1.0.7";
 }
