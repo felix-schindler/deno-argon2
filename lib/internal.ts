@@ -4,6 +4,10 @@ import { dlopen, type FetchOptions } from "./deps.ts";
 
 const LOCAL = Deno.env.get("LOCAL");
 
+/**
+ * Generates a local file URL for the target release directory based on the current module's location.
+ * @returns The local file path as a string, adjusted for the operating system. On Windows, the path is converted to use backslashes, and any leading slash is removed.
+ */
 function getLocalUrl(): string {
 	const url = new URL("../target/release", import.meta.url);
 
@@ -22,6 +26,9 @@ function getLocalUrl(): string {
 	return uri;
 }
 
+/**
+ * Configuration options for fetching the Argon2 module, determining whether to fetch from a local source or a remote URL.
+ */
 const FETCH_OPTIONS: FetchOptions = {
 	name: "deno_argon2",
 	url: LOCAL
@@ -30,6 +37,10 @@ const FETCH_OPTIONS: FetchOptions = {
 	cache: LOCAL ? "reloadAll" : "use",
 };
 
+/**
+ * An object that defines the symbols for interacting with native functions related to Argon2 operations.
+ * This object is used to map the function signatures of the native methods, specifying their parameters, return types, and other properties.
+ */
 const SYMBOLS = {
 	hash: {
 		parameters: ["buffer", "usize"],
@@ -52,6 +63,11 @@ const lib = await dlopen(FETCH_OPTIONS, SYMBOLS);
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
+/**
+ * Reads data from a native buffer pointed to by a given pointer and then frees the buffer to avoid memory leaks.
+ * @param ptr - A pointer to the native buffer that contains the data to be read. If the pointer is `null`, an empty `Uint8Array` is returned.
+ * @returns A `Uint8Array` containing the data read from the buffer. If the pointer is `null`, an empty `Uint8Array` is returned.
+ */
 function readAndFreeBuffer(ptr: Deno.PointerValue): Uint8Array {
 	if (ptr !== null) {
 		const ptrView = new Deno.UnsafePointerView(ptr);
@@ -68,6 +84,13 @@ function readAndFreeBuffer(ptr: Deno.PointerValue): Uint8Array {
 	return new Uint8Array();
 }
 
+/**
+ * Hashes a password using the Argon2 algorithm with the specified options. This function also handles errors related to input validation and native execution.
+ * @param password The password to be hashed. This must be a string; otherwise, an `Argon2Error` is thrown.
+ * @param [options={}] Optional configuration for the hashing operation. This may include settings like salt, secret, memory cost, time cost, and more. If not provided, default options are used.
+ * @returns A promise that resolves to the resulting hash encoded as a string.
+ * @throws {Argon2Error} - Throws an `Argon2Error` if the input password is not a string, the salt is too short, or if a native error occurs during hashing.
+ */
 export async function hash(
 	password: string,
 	options: Partial<HashOptions> = {},
@@ -127,6 +150,13 @@ export async function hash(
 	return decoder.decode(Uint8Array.from(result.result));
 }
 
+/**
+ * Verifies if a given password matches the provided Argon2 hash. This function performs the verification by calling a native function and handles any errors that occur during the process.
+ * @param hash - The Argon2 hash that the password is being compared against. This must be a valid hash string.
+ * @param password - The password to be verified against the hash. This must be a string.
+ * @returns A promise that resolves to `true` if the password matches the hash, or `false` otherwise.
+ * @throws Throws an `Argon2Error` if a native error occurs during the verification process.
+ */
 export async function verify(
 	hash: string,
 	password: string,
