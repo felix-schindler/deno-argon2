@@ -12,7 +12,7 @@ jobs:
       id-token: write # The OIDC ID token is used for authentication with JSR.
     strategy:
       matrix:
-        os: [macOS-latest, windows-2019, ubuntu-latest]
+        os: [macos-latest, windows-latest, ubuntu-latest]
         kind: ["test", "lint"]
 
     steps:

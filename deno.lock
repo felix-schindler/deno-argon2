@@ -5,10 +5,12 @@
       "jsr:@denosaurs/plug@^1.0.6": "jsr:@denosaurs/plug@1.0.6",
       "jsr:@std/assert@^0.221.0": "jsr:@std/assert@0.221.0",
       "jsr:@std/assert@^1.0.3": "jsr:@std/assert@1.0.3",
+      "jsr:@std/bytes@^1.0.2": "jsr:@std/bytes@1.0.2",
       "jsr:@std/encoding@^0.221.0": "jsr:@std/encoding@0.221.0",
       "jsr:@std/fmt@^0.221.0": "jsr:@std/fmt@0.221.0",
       "jsr:@std/fs@^0.221.0": "jsr:@std/fs@0.221.0",
       "jsr:@std/internal@^1.0.2": "jsr:@std/internal@1.0.2",
+      "jsr:@std/io@^0.224.6": "jsr:@std/io@0.224.6",
       "jsr:@std/path@^0.221.0": "jsr:@std/path@0.221.0"
     },
     "jsr": {
@@ -30,6 +32,9 @@
           "jsr:@std/internal@^1.0.2"
         ]
       },
+      "@std/bytes@1.0.2": {
+        "integrity": "fbdee322bbd8c599a6af186a1603b3355e59a5fb1baa139f8f4c3c9a1b3e3d57"
+      },
       "@std/encoding@0.221.0": {
         "integrity": "d1dd76ef0dc5d14088411e6dc1dede53bf8308c95d1537df1214c97137208e45"
       },
@@ -45,6 +50,12 @@
       },
       "@std/internal@1.0.2": {
         "integrity": "f4cabe2021352e8bfc24e6569700df87bf070914fc38d4b23eddd20108ac4495"
+      },
+      "@std/io@0.224.6": {
+        "integrity": "eefe034a370be34daf066c8634dd645635d099bb21eccf110f0bdc28d9040891",
+        "dependencies": [
+          "jsr:@std/bytes@^1.0.2"
+        ]
       },
       "@std/path@0.221.0": {
         "integrity": "0a36f6b17314ef653a3a1649740cc8db51b25a133ecfe838f20b79a56ebe0095",

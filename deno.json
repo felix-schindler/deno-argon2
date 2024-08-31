@@ -3,12 +3,13 @@
 	"version": "1.0.6",
 	"exports": "./mod.ts",
 	"tasks": {
-		"samples": "deno run -A --unstable ./examples/hash-with-options.ts && deno run -A --unstable ./examples/hash.ts && deno run -A --unstable ./examples/verify.ts",
+		"samples": "deno run -A ./examples/hash-with-options.ts && deno run -A ./examples/hash.ts && deno run -A ./examples/verify.ts",
 		"ok": "deno fmt --check && deno lint",
-		"test": "LOCAL=true deno test --allow-read --allow-write --allow-ffi --allow-run --allow-env --unstable tests/",
-		"bench": "LOCAL=true deno bench --allow-read --allow-write --allow-ffi --allow-run --allow-env --allow-net=deno.land --unstable benchmarks/",
+		"test": "LOCAL=true deno test --allow-read --allow-write --allow-ffi --allow-run --allow-env tests/",
+		"bench": "LOCAL=true deno bench --allow-read --allow-write --allow-ffi --allow-run --allow-env --allow-net=deno.land benchmarks/",
 		"build": "cargo build --release"
 	},
+	"unstable": ["ffi"],
 	"imports": {
 		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.0.6",
 		"@std/assert": "jsr:@std/assert@^1.0.3",
@@ -22,11 +23,11 @@
 		]
 	},
 	"publish": {
-    "include": [
-      "LICENSE",
-      "README.md",
-      "lib/**/*.ts",
-      "mod.ts"
-    ]
-  }
+		"include": [
+			"LICENSE",
+			"README.md",
+			"lib/**/*.ts",
+			"mod.ts"
+		]
+	}
 }

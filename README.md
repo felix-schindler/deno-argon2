@@ -16,45 +16,27 @@ Benchmark measures performance against [x/bcrypt](https://deno.land/x/bcrypt).
 See [`benchmarks/`](benchmarks/) folder for more details.
 
 ```
-cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-runtime: deno 1.36.0 (x86_64-apple-darwin)
+cpu: Apple M2 Pro
+runtime: deno 1.45.5 (aarch64-apple-darwin)
 
 file://[redacted]/deno-argon2/benchmarks/bench.ts
 benchmark                                  time (avg)        iter/s             (min … max)       p75       p99      p995
 ------------------------------------------------------------------------------------------- -----------------------------
 
+group hashing
+hash argon2i                                5.46 ms/iter         183.1      (5.3 ms … 5.78 ms) 5.49 ms 5.74 ms 5.78 ms
+hash argon2d                                5.38 ms/iter         185.8      (5.22 ms … 5.5 ms) 5.41 ms 5.49 ms 5.5 ms
+hash argon2id                                5.4 ms/iter         185.3     (5.27 ms … 5.77 ms) 5.43 ms 5.74 ms 5.77 ms
+hash with given data, secret and salt       5.46 ms/iter         183.1     (5.33 ms … 5.79 ms) 5.49 ms 5.7 ms 5.79 ms
+hash with memoryCost set at 1024            1.34 ms/iter         743.6     (1.29 ms … 1.62 ms) 1.36 ms 1.46 ms 1.48 ms
+hash with timeCost set at 10                10.7 ms/iter          93.5    (10.48 ms … 10.9 ms) 10.75 ms 10.9 ms 10.9 ms
+hash with 16 lanes on sequential mode       5.66 ms/iter         176.7     (5.54 ms … 6.02 ms) 5.69 ms 6.02 ms 6.02 ms
 
-hash argon2i                                   9 ms/iter         111.1     (8.4 ms … 10.74 ms)   9.07 ms  10.74 ms  10.74 ms
-hash argon2d                                9.04 ms/iter         110.7     (8.59 ms … 9.74 ms)   9.21 ms   9.74 ms   9.74 ms
-hash argon2id                               8.94 ms/iter         111.8     (8.48 ms … 9.73 ms)   9.13 ms   9.73 ms   9.73 ms
-hash with given data, secret and salt       8.74 ms/iter         114.5     (8.37 ms … 9.51 ms)    8.9 ms   9.51 ms   9.51 ms
-hash with memoryCost set at 1024            2.27 ms/iter         440.3     (2.18 ms … 3.07 ms)   2.28 ms   2.61 ms    2.8 ms
-hash with timeCost set at 10               17.55 ms/iter          57.0    (16.8 ms … 18.33 ms)  17.89 ms  18.33 ms  18.33 ms
-hash with 16 lanes on sequential mode       9.18 ms/iter         108.9    (8.92 ms … 10.65 ms)   9.22 ms  10.65 ms  10.65 ms
+group hashing-salt
+hash with given salt                        5.55 ms/iter         180.3     (5.35 ms … 6.04 ms) 5.63 ms 5.99 ms 6.04 ms
 
-summary
-  hash argon2i
-   3.96x slower than hash with memoryCost set at 1024
-   1.03x slower than hash with given data, secret and salt
-   1.01x slower than hash argon2id
-   1x faster than hash argon2d
-   1.01x faster than bcrypt hash
-   1.02x faster than hash with 16 lanes on sequential mode
-   1.95x faster than hash with timeCost set at 10
-
-hash with given salt                        9.05 ms/iter         110.6    (8.42 ms … 10.87 ms)   9.24 ms  10.87 ms  10.87 ms
-bcrypt hash with given salt                88.86 ms/iter          11.3   (87.58 ms … 90.57 ms)  89.92 ms  90.57 ms  90.57 ms
-
-summary
-  hash with given salt
-   10.28x faster than bcrypt hash with given salt
-
-verify                                      8.92 ms/iter         112.1     (8.61 ms … 9.92 ms)   8.98 ms   9.92 ms   9.92 ms
-bcrypt verify                              18.44 ms/iter          54.2    (17.73 ms … 21.1 ms)  18.52 ms   21.1 ms   21.1 ms
-
-summary
-  verify
-   2.09x faster than bcrypt verify
+group verifying
+verify                                      5.52 ms/iter         181.2     (5.35 ms … 6.02 ms) 5.61 ms 5.92 ms 6.02 ms
 ```
 
 ## API
