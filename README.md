@@ -4,7 +4,7 @@ This repository is a continuation of
 [fdionisi/deno-argon2](https://github.com/fdionisi/deno-argon2) which was no
 longer actively maintained.
 
-[Argon2](https://github.com/P-H-C/phc-winner-argon2) hashing library for
+Fastest [Argon2](https://github.com/P-H-C/phc-winner-argon2) hashing library for
 [Deno](https://deno.com). It uses
 [rust-argon2](https://github.com/sru-systems/rust-argon2) via
 [Deno FFI](https://docs.deno.com/runtime/reference/deno_namespace_apis/#ffi)
@@ -12,35 +12,55 @@ which requires Deno v1.30.0 or higher.
 
 ## Benchmarks
 
+See [benchmarks/bench.ts](benchmarks/bench.ts) for more details. OWASP
+recommended configuration with t=2 and 19 MiB memory (as far as supported by
+library).
+
 ```
-cpu: Apple M2 Pro
-runtime: deno 1.45.5 (aarch64-apple-darwin)
+CPU | Apple M2 Pro
+Runtime | Deno 2.0.0 (aarch64-apple-darwin)
 
 file://[redacted]/deno-argon2/benchmarks/bench.ts
-benchmark                                  time (avg)        iter/s             (min … max)       p75       p99      p995
-------------------------------------------------------------------------------------------- -----------------------------
+
+benchmark                      time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+------------------------------ ----------------------------- --------------------- --------------------------
 
 group hashing
-hash argon2i                                5.46 ms/iter         183.1      (5.3 ms … 5.78 ms) 5.49 ms 5.74 ms 5.78 ms
-hash argon2d                                5.38 ms/iter         185.8      (5.22 ms … 5.5 ms) 5.41 ms 5.49 ms 5.5 ms
-hash argon2id                                5.4 ms/iter         185.3     (5.27 ms … 5.77 ms) 5.43 ms 5.74 ms 5.77 ms
-hash with given data, secret and salt       5.46 ms/iter         183.1     (5.33 ms … 5.79 ms) 5.49 ms 5.7 ms 5.79 ms
-hash with memoryCost set at 1024            1.34 ms/iter         743.6     (1.29 ms … 1.62 ms) 1.36 ms 1.46 ms 1.48 ms
-hash with timeCost set at 10                10.7 ms/iter          93.5    (10.48 ms … 10.9 ms) 10.75 ms 10.9 ms 10.9 ms
-hash with 16 lanes on sequential mode       5.66 ms/iter         176.7     (5.54 ms … 6.02 ms) 5.69 ms 6.02 ms 6.02 ms
+jsr:@felix/argon2                      17.2 ms          58.2 ( 17.0 ms …  18.9 ms)  17.2 ms  18.9 ms  18.9 ms
+jsr:@ts-rex/argon2                     44.7 ms          22.4 ( 44.6 ms …  45.6 ms)  44.8 ms  45.6 ms  45.6 ms
+jsr:@rabbit-company/argon2id           45.3 ms          22.1 ( 42.4 ms …  49.0 ms)  46.6 ms  49.0 ms  49.0 ms
+jsr:@stdext/crypto                     39.5 ms          25.3 ( 38.6 ms …  42.6 ms)  40.1 ms  42.6 ms  42.6 ms
+jsr:@denosaurs/argontwo                45.4 ms          22.1 ( 43.5 ms …  50.6 ms)  47.1 ms  50.6 ms  50.6 ms
+npm:argon2                             19.0 ms          52.8 ( 17.8 ms …  21.0 ms)  19.4 ms  21.0 ms  21.0 ms
 
-group hashing-salt
-hash with given salt                        5.55 ms/iter         180.3     (5.35 ms … 6.04 ms) 5.63 ms 5.99 ms 6.04 ms
+summary
+jsr:@felix/argon2
+ 1.10x faster than npm:argon2
+ 2.29x faster than jsr:@stdext/crypto
+ 2.60x faster than jsr:@ts-rex/argon2
+ 2.63x faster than jsr:@rabbit-company/argon2id
+ 2.64x faster than jsr:@denosaurs/argontwo
 
 group verifying
-verify                                      5.52 ms/iter         181.2     (5.35 ms … 6.02 ms) 5.61 ms 5.92 ms 6.02 ms
+jsr:@felix/argon2                      17.1 ms          58.5 ( 17.0 ms …  17.3 ms)  17.1 ms  17.3 ms  17.3 ms
+jsr:@ts-rex/argon2                     45.4 ms          22.0 ( 44.5 ms …  48.2 ms)  46.2 ms  48.2 ms  48.2 ms
+jsr:@rabbit-company/argon2id           43.3 ms          23.1 ( 42.3 ms …  47.3 ms)  43.1 ms  47.3 ms  47.3 ms
+jsr:@stdext/crypto                     39.7 ms          25.2 ( 38.8 ms …  43.0 ms)  39.7 ms  43.0 ms  43.0 ms
+npm:argon2                             19.1 ms          52.3 ( 18.3 ms …  24.2 ms)  18.9 ms  24.2 ms  24.2 ms
+
+summary
+jsr:@felix/argon2
+ 1.12x faster than npm:argon2
+ 2.32x faster than jsr:@stdext/crypto
+ 2.53x faster than jsr:@rabbit-company/argon2id
+ 2.65x faster than jsr:@ts-rex/argon2
 ```
 
 ## API
 
 ```ts
 hash(password: string, options?: HashOptions): Promise<string>
-verify(hash: string, password: string, secret?: Uint8Array): Promise<boolean>
+verify(hash: string, password: string, secret?: Uint8Array, additionalData?: unknown): Promise<boolean>
 ```
 
 ### Error handling

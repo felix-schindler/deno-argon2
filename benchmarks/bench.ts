@@ -1,87 +1,156 @@
-import { hash, Variant, verify } from "@felix/argon2";
+import { Buffer } from "node:buffer";
+import {
+	hash as myHash,
+	Variant,
+	verify as myVerify,
+	Version,
+} from "@felix/argon2";
+import { hash as hash2, verify as verify2 } from "jsr:@ts-rex/argon2";
+import argon2id_3 from "jsr:@rabbit-company/argon2id";
+import {
+	hash as hash4,
+	verify as verify4,
+} from "jsr:@stdext/crypto@0.0.6/hash";
+import { hash as hash5 } from "jsr:@denosaurs/argontwo@0.2.0";
+import { hash as npmHash, verify as npmVerify } from "npm:argon2";
+
+const encoder = new TextEncoder();
 
 const password =
 	"2gnF!WAcyhp#kB@tcYQa2$A%P64jEmXY!@8n2GSH$GggfgGfP*qH!EWwDaB%5mdB6pW2fK!KD@YNjvqwREfRCCAPc54c5@Sk";
+const encodedPassword = encoder.encode(password);
+
+const salt: string = crypto.randomUUID();
+const encodedSalt = encoder.encode(salt);
+const bufferSalt = Buffer.from(salt);
+
 const hashed =
-	"$argon2i$v=19$m=4096,t=3,p=1$i8Pd309cCOP75oN8vz8FHA$qUk1NgsxOmz3nWc54jyuOnr+3hHbZz3k0Sb13id7Ai8";
+	"$argon2id$v=19$m=19456,t=2,p=1$dX4UDfel7xLyNtWEkbhoO57lVIrtkaby$yH+LNxtH89sTAB0+PnuOjCIal6b6bzhqWAvB0H1Z56g";
+
+// Default settings (as far as they are supported by the libraries)
+// OWASP recommended configuration with t=2 and 19 MiB memory.
+const hash_length = 32;
+const lanes = 1;
+const mem_cost = 19456;
+const time_cost = 2;
 
 Deno.bench({
-	name: "hash argon2i",
+	name: "jsr:@felix/argon2",
 	group: "hashing",
 	baseline: true,
 	async fn() {
-		await hash(password);
+		await myHash(password, {
+			variant: Variant.Argon2id,
+			version: Version.V13,
+			salt: encodedSalt,
+			memoryCost: mem_cost,
+			timeCost: time_cost,
+			lanes: lanes,
+			hashLength: hash_length,
+		});
 	},
 });
 
 Deno.bench({
-	name: "hash argon2d",
+	name: "jsr:@ts-rex/argon2",
+	group: "hashing",
+	fn() {
+		hash2(password);
+	},
+});
+
+Deno.bench({
+	name: "jsr:@rabbit-company/argon2id",
 	group: "hashing",
 	async fn() {
-		await hash(password, { variant: Variant.Argon2d });
-	},
-});
-
-Deno.bench({
-	name: "hash argon2id",
-	group: "hashing",
-	async fn() {
-		await hash(password, { variant: Variant.Argon2id });
-	},
-});
-
-Deno.bench({
-	name: "hash with given salt",
-	group: "hashing-salt",
-	baseline: true,
-	async fn(b) {
-		const salt = crypto.getRandomValues(
-			new Uint8Array(Math.max(8, Math.random() * 32)),
+		await argon2id_3.hash(
+			password,
+			salt,
+			lanes,
+			mem_cost,
+			time_cost,
+			hash_length,
 		);
-		b.start();
-		await hash(password, { salt });
-		b.end();
 	},
 });
 
 Deno.bench({
-	name: "hash with given data, secret and salt",
+	name: "jsr:@stdext/crypto",
 	group: "hashing",
-	async fn(b) {
-		const salt = crypto.getRandomValues(
-			new Uint8Array(Math.max(8, Math.random() * 32)),
-		);
-		const secret = crypto.getRandomValues(
-			new Uint8Array(Math.max(8, Math.random() * 32)),
-		);
-		const data = { hashedAt: Date.now() };
-		b.start();
-		await hash(password, { salt, secret, data });
-		b.end();
+	fn() {
+		hash4({ name: "argon2", algorithm: "argon2id" }, password);
 	},
 });
 
 Deno.bench({
-	name: "hash with memoryCost set at 1024",
+	name: "jsr:@denosaurs/argontwo",
 	group: "hashing",
-	async fn() {
-		await hash(password, { memoryCost: 1024 });
+	fn() {
+		hash5(encodedPassword, encodedSalt, {
+			algorithm: "Argon2id",
+			version: 0x13,
+			outputLength: hash_length,
+			mCost: mem_cost,
+			tCost: time_cost,
+			pCost: lanes,
+		});
 	},
 });
 
 Deno.bench({
-	name: "hash with timeCost set at 10",
+	name: "npm:argon2",
 	group: "hashing",
 	async fn() {
-		await hash(password, { timeCost: 6 });
+		await npmHash(password, {
+			hashLength: hash_length,
+			timeCost: time_cost,
+			memoryCost: mem_cost,
+			parallelism: lanes,
+			type: 2,
+			version: 19,
+			salt: bufferSalt,
+		});
 	},
 });
 
 Deno.bench({
-	name: "verify",
+	name: "jsr:@felix/argon2",
 	group: "verifying",
 	baseline: true,
 	async fn() {
-		await verify(hashed, password);
+		await myVerify(hashed, password);
+	},
+});
+
+Deno.bench({
+	name: "jsr:@ts-rex/argon2",
+	group: "verifying",
+	fn() {
+		verify2(password, hashed);
+	},
+});
+
+Deno.bench({
+	name: "jsr:@rabbit-company/argon2id",
+	group: "verifying",
+	async fn() {
+		await argon2id_3.verify(hashed, password);
+	},
+});
+
+Deno.bench({
+	name: "jsr:@stdext/crypto",
+	group: "verifying",
+	fn() {
+		verify4("argon2", password, hashed);
+	},
+});
+
+Deno.bench({
+	name: "npm:argon2",
+	group: "verifying",
+	baseline: true,
+	async fn() {
+		await npmVerify(hashed, password);
 	},
 });
