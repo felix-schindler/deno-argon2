@@ -1,3 +1,4 @@
+import type { Variant } from "../../lib/mod.ts";
 import { argon2, Command } from "../deps.ts";
 import { readStdin } from "../util.ts";
 
@@ -11,30 +12,9 @@ export const hash = new Command()
 	.option("-m, --memory-cost <arg:number>", "")
 	.option("-t, --time-cost <arg:number>", "")
 	.option("-l, --lanes <arg:number>", "")
-	.option("-T, --thread-mode <arg:thread-mode>", "")
 	.option("-v, --variant <arg:variant>", "")
 	.option("-d, --data <arg:json>", "")
 	.option("-H, --hash-length <arg:number>", "")
-	.type("thread-mode", ({
-		name,
-		value,
-	}) => {
-		switch (value) {
-			case "sequential": {
-				return argon2.ThreadMode.Sequential;
-			}
-			case "parallel": {
-				return argon2.ThreadMode.Parallel;
-			}
-			// deno-lint-ignore no-empty
-			case undefined: {}
-			default: {
-				throw new Error(
-					`Option --${name} must be either "sequential" or "parallel": ${value}`,
-				);
-			}
-		}
-	})
 	.type("variant", ({
 		name,
 		value,
@@ -78,8 +58,7 @@ export const hash = new Command()
 				memoryCost: options.memoryCost ? options.memoryCost : undefined,
 				timeCost: options.timeCost ? options.timeCost : undefined,
 				lanes: options.lanes ? options.lanes : undefined,
-				threadMode: "threadMode" in options ? options.threadMode : undefined,
-				variant: options.variant ? options.variant : undefined,
+				variant: options.variant ? options.variant as Variant : undefined,
 				data: options.data ? options.data : undefined,
 				hashLength: options.hashLength ? options.hashLength : undefined,
 			}),

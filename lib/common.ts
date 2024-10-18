@@ -27,16 +27,6 @@ export enum Version {
 }
 
 /**
- * Defines the mode in which hashing operations are performed concerning thread usage
- * Sequential: The hashing operation will run sequentially in a single thread.
- * Parallel: The hashing operation will utilize multiple threads for parallel processing, enhancing performance on multi-core processors.
- */
-export enum ThreadMode {
-	Sequential,
-	Parallel,
-}
-
-/**
  * Options required to configure a hashing operation using the Argon2 algorithm. This allows you to customize the security and performance characteristics of the hash.
  * salt: Uint8Array: The salt value used in the hashing operation. It must be at least MIN_SALT_SIZE bytes long to ensure security.
  * secret: Uint8Array: A secret key or value that can be combined with the data during the hashing operation for additional security.
@@ -45,7 +35,6 @@ export enum ThreadMode {
  * version: Version: Specifies the version of Argon2 to use. It must be one of the values from the Version enumeration.
  * memoryCost: number: Specifies the amount of memory (in kilobytes) that the hashing algorithm should use. Higher values increase security but require more resources.
  * timeCost: number: Specifies the number of iterations (or time cost) the hashing algorithm should perform. Higher values increase the computation time, enhancing security.
- * threadMode: ThreadMode: Specifies whether the hashing should be performed sequentially or in parallel, as defined by the ThreadMode enumeration.
  * lanes: number: The number of parallel lanes (or threads) used in the hashing operation. This allows for fine-tuning of performance and security.
  * hashLength: number: Specifies the desired length of the resulting hash (in bytes).
  */
@@ -58,7 +47,6 @@ export interface HashOptions<T extends {} = {}> {
 	version: Version;
 	memoryCost: number;
 	timeCost: number;
-	threadMode: ThreadMode;
 	lanes: number;
 	hashLength: number;
 }
@@ -67,5 +55,5 @@ export interface HashOptions<T extends {} = {}> {
  * Returns the current version of the library.
  */
 export function version(): string {
-	return "1.0.7";
+	return "2.0.0";
 }

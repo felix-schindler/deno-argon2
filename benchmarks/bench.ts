@@ -1,4 +1,4 @@
-import { hash, ThreadMode, Variant, verify } from "argon2_ffi";
+import { hash, Variant, verify } from "@felix/argon2";
 
 const password =
 	"2gnF!WAcyhp#kB@tcYQa2$A%P64jEmXY!@8n2GSH$GggfgGfP*qH!EWwDaB%5mdB6pW2fK!KD@YNjvqwREfRCCAPc54c5@Sk";
@@ -74,14 +74,6 @@ Deno.bench({
 	group: "hashing",
 	async fn() {
 		await hash(password, { timeCost: 6 });
-	},
-});
-
-Deno.bench({
-	name: "hash with 16 lanes on sequential mode",
-	group: "hashing",
-	async fn() {
-		await hash(password, { threadMode: ThreadMode.Sequential, lanes: 16 });
 	},
 });
 

@@ -1,3 +1,3 @@
-import { hash } from "argon2_ffi";
+import { hash } from "@felix/argon2";
 
 console.log(await hash("test"));

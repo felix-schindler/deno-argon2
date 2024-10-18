@@ -38,7 +38,7 @@ export class Argon2Error extends Error {
 	 * @returns Returns the name of the error, which includes the error type.
 	 */
 
-	get name(): string {
+	override get name(): string {
 		return `Argon2Error(${this.type})`;
 	}
 }

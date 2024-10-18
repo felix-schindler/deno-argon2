@@ -1,7 +1,8 @@
-import { assert, assertEquals, assertRejects } from "@std/assert";
+import { assert, assertEquals, assertFalse, assertRejects } from "@std/assert";
 
-import { hash, Variant, verify, Version } from "argon2_ffi";
+import { hash, Variant, verify, Version } from "@felix/argon2";
 
+const salt = crypto.getRandomValues(new Uint8Array(8));
 const password =
 	"2gnF!WAcyhp#kB@tcYQa2$A%P64jEmXY!@8n2GSH$GggfgGfP*qH!EWwDaB%5mdB6pW2fK!KD@YNjvqwREfRCCAPc54c5@Sk";
 const hashed =
@@ -22,10 +23,8 @@ Deno.test({
 Deno.test({
 	name: "hashing a password specifying the salt",
 	async fn() {
-		const salt = crypto.getRandomValues(new Uint8Array(8));
 		const hashed1 = await hash(password, { salt });
 		const hashed2 = await hash(password, { salt });
-
 		assertEquals(hashed1, hashed2);
 	},
 });
@@ -147,5 +146,30 @@ Deno.test({
 
 		assertEquals(resultTrue, true);
 		assertEquals(resultFalse, false);
+	},
+});
+
+Deno.test({
+	name: "password verification with salt",
+	async fn() {
+		const hashed1 = await hash(password, { salt });
+		assert(await verify(hashed1, password));
+		const hashed2 = await hash("thiscouldbeanotherpassword", { salt });
+		assertEquals(await verify(hashed2, password), false);
+	},
+});
+
+Deno.test({
+	name: "password verification with secret",
+	async fn() {
+		const encoder = new TextEncoder();
+		const secret = encoder.encode("this-is-a-GEHEIMNIS");
+		const hashed = await hash(password, { secret });
+
+		assert(await verify(hashed, password, secret));
+		assertFalse(
+			await verify(hashed, password, encoder.encode("another secret")),
+		);
+		assertFalse(await verify(hashed, password, salt));
 	},
 });

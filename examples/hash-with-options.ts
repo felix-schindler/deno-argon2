@@ -1,4 +1,4 @@
-import { hash, ThreadMode, Variant, Version } from "argon2_ffi";
+import { hash, Variant, Version } from "@felix/argon2";
 
 const salt = crypto.getRandomValues(
 	new Uint8Array(20),
@@ -8,14 +8,13 @@ const encoder = new TextEncoder();
 const secret = encoder.encode("my-super-secret");
 
 console.log(
-	await hash("test", {
+	await hash("this-could_be/yourP4ssword", {
 		salt,
 		secret,
 		variant: Variant.Argon2id,
 		version: Version.V13,
 		memoryCost: 8192,
 		timeCost: 10,
-		threadMode: ThreadMode.Parallel,
 		lanes: 4,
 		hashLength: 32,
 		data: {

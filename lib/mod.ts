@@ -37,7 +37,6 @@ export * from "./error.ts";
  *   version: Version.V13,
  *   memoryCost: 8192,
  *   timeCost: 10,
- *   threadMode: ThreadMode.Parallel,
  *   lanes: 4,
  *   data: {
  *     hashedAt: Date.now(),
@@ -56,6 +55,8 @@ export * from "./error.ts";
  * @param options.version The Argon2 version: `16` or `19`. **Default**: "16"
  * @param options.memoryCost Defines the memory usage, given in kibibytes. **Default**: 4096
  * @param options.timeCost The amount of computation realized and therefore the execution time, given in number of iterations. **Default**: 3
+ * @returns A promise that resolves to the resulting hash encoded as a string.
+ * @throws Throws an `Argon2Error` if the input password is not a string, the salt is too short, or if a native error occurs during hashing.
  */
 export function hash(
 	password: string,
@@ -66,12 +67,16 @@ export function hash(
 
 /**
  * Verify a password against a previously hashed value.
- * @param hash
- * @param password
+ * @param hash - The Argon2 hash that the password is being compared against. This must be a valid hash string.
+ * @param password - The password to be verified against the hash. This must be a string.
+ * @param secret - An optional secret string that was used during hashing. If provided, the secret must match the one used during hashing; otherwise, the verification fails.
+ * @returns A promise that resolves to `true` if the password matches the hash, or `false` otherwise.
+ * @throws Throws an `Argon2Error` if a native error occurs during the verification process.
  */
 export function verify(
 	hash: string,
 	password: string,
+	secret?: Uint8Array,
 ): Promise<boolean> {
-	return internal.verify(hash, password);
+	return internal.verify(hash, password, secret);
 }

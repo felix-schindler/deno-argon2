@@ -1,4 +1,4 @@
-use argon2::{hash_encoded, verify_encoded, Config, ThreadMode, Variant, Version};
+use argon2::{hash_encoded, verify_encoded_ext, Config, Variant, Version};
 use bytes::Bytes;
 
 use crate::error::Error;
@@ -16,8 +16,6 @@ struct HashOptions {
 	time_cost: Option<u32>,
 	#[serde(rename(deserialize = "lanes"))]
 	lanes: Option<u32>,
-	#[serde(rename(deserialize = "threadMode"))]
-	thread_mode: Option<u8>,
 	#[serde(rename(deserialize = "hashLength"))]
 	hash_length: Option<u32>,
 }
@@ -38,6 +36,7 @@ struct HashResult {
 struct VerifyParams {
 	password: String,
 	hash: String,
+	secret: Option<Bytes>,
 }
 
 #[derive(Serialize)]
@@ -157,22 +156,19 @@ fn hash_internal(params_buf: &[u8]) -> Result<String, Error> {
 		config.hash_length = hash_length;
 	}
 
-	if let Some(thread_mode) = params.options.thread_mode {
-		match thread_mode {
-			0 => config.thread_mode = ThreadMode::Sequential,
-			1 => config.thread_mode = ThreadMode::Parallel,
-			_ => {}
-		}
-	}
-
 	Ok(hash_encoded(&params.password.into_bytes(), salt, &config)?)
 }
 
 fn verify_internal(params_buf: &[u8]) -> Result<bool, Error> {
 	let options: VerifyParams = serde_json::from_slice(params_buf)?;
 
-	Ok(verify_encoded(
+	// Convert the secret option to a byte slice with a fallback to an empty slice
+	let secret_bytes: &[u8] = options.secret.as_deref().unwrap_or(&[]);
+
+	Ok(verify_encoded_ext(
 		&options.hash,
 		options.password.as_bytes(),
+		secret_bytes,
+		&[]
 	)?)
 }

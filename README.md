@@ -5,15 +5,12 @@ This repository is a continuation of
 longer actively maintained.
 
 [Argon2](https://github.com/P-H-C/phc-winner-argon2) hashing library for
-[Deno](https://deno.land). It uses
+[Deno](https://deno.com). It uses
 [rust-argon2](https://github.com/sru-systems/rust-argon2) via
-[Deno FFI](https://deno.land/manual@v1.30.0/runtime/ffi_api) which requires Deno
-v1.30.0 or higher.
+[Deno FFI](https://docs.deno.com/runtime/reference/deno_namespace_apis/#ffi)
+which requires Deno v1.30.0 or higher.
 
 ## Benchmarks
-
-Benchmark measures performance against [x/bcrypt](https://deno.land/x/bcrypt).
-See [`benchmarks/`](benchmarks/) folder for more details.
 
 ```
 cpu: Apple M2 Pro
@@ -43,7 +40,7 @@ verify                                      5.52 ms/iter         181.2     (5.35
 
 ```ts
 hash(password: string, options?: HashOptions): Promise<string>
-verify(hash: string, password: string): Promise<boolean>
+verify(hash: string, password: string, secret?: Uint8Array): Promise<boolean>
 ```
 
 ### Error handling
@@ -56,8 +53,8 @@ In case of an error, all methods of this library will throw an
 ### Library
 
 ```ts
-import { assert } from "https://deno.land/std/testing/asserts.ts";
-import { hash, verify } from "https://deno.land/x/argon2_ffi/mod.ts";
+import { assert } from "jsr:@std/assert";
+import { hash, verify } from "jsr:@felix/argon2";
 
 const hash = await hash("test");
 
@@ -67,8 +64,8 @@ assert(await verify(hash, "test"));
 #### Testing
 
 ```ts
-import { Variant } from "https://deno.land/x/argon2_ffi/mod.ts";
-import { assertArgon2Encoded } from "https://deno.land/x/argon2_ffi/lib/testing.ts";
+import { Variant } from "jsr:@felix/argon2";
+import { assertArgon2Encoded } from "jsr:@felix/argon2/lib/testing";
 
 Deno.test("User#password should be an argon2id variant password", async () => {
 	assertArgon2Encoded(user.password, {
@@ -88,8 +85,7 @@ The library can be installed as a CLI tool via `deno install`.
     ```sh
     deno install \
       -A \
-      --unstable \
-      argon2 https://deno.land/x/argon2_ffi/cli/argon2.ts
+      argon2 jsr:@felix/argon2/cli/argon2
     ```
 
 </details>
@@ -109,7 +105,6 @@ The library automatically downloads the static library. It requires
       --allow-write \
       --allow-net \
       --allow-ffi \
-      --unstable \
       mod.ts
     ```
 
