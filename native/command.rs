@@ -37,6 +37,7 @@ struct VerifyParams {
 	password: String,
 	hash: String,
 	secret: Option<Bytes>,
+	data: Option<Bytes>,
 }
 
 #[derive(Serialize)]
@@ -164,11 +165,12 @@ fn verify_internal(params_buf: &[u8]) -> Result<bool, Error> {
 
 	// Convert the secret option to a byte slice with a fallback to an empty slice
 	let secret_bytes: &[u8] = options.secret.as_deref().unwrap_or(&[]);
+	let additional_data: &[u8] = options.data.as_deref().unwrap_or(&[]);
 
 	Ok(verify_encoded_ext(
 		&options.hash,
 		options.password.as_bytes(),
 		secret_bytes,
-		&[]
+		additional_data
 	)?)
 }

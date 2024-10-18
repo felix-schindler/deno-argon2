@@ -70,6 +70,7 @@ export function hash(
  * @param hash - The Argon2 hash that the password is being compared against. This must be a valid hash string.
  * @param password - The password to be verified against the hash. This must be a string.
  * @param secret - An optional secret string that was used during hashing. If provided, the secret must match the one used during hashing; otherwise, the verification fails.
+ * @param additionalData - Optional additional data that was used during hashing. If provided, the additional data must match the one used during hashing; otherwise, the verification fails.
  * @returns A promise that resolves to `true` if the password matches the hash, or `false` otherwise.
  * @throws Throws an `Argon2Error` if a native error occurs during the verification process.
  */
@@ -77,6 +78,7 @@ export function verify(
 	hash: string,
 	password: string,
 	secret?: Uint8Array,
+	additionalData?: unknown,
 ): Promise<boolean> {
-	return internal.verify(hash, password, secret);
+	return internal.verify(hash, password, secret, additionalData);
 }

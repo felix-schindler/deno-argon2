@@ -173,3 +173,23 @@ Deno.test({
 		assertFalse(await verify(hashed, password, salt));
 	},
 });
+
+Deno.test({
+	name: "password verification with additional data",
+	async fn() {
+		const data = {
+			hashedAt: Date.now(),
+			requestId: crypto.randomUUID(),
+		};
+
+		const otherData = {
+			hashedAt: Date.now(),
+			requestId: crypto.randomUUID(),
+		};
+
+		const hashedWithData = await hash(password, { data });
+
+		assert(await verify(hashedWithData, password, undefined, data));
+		assertFalse(await verify(hashedWithData, password, undefined, otherData));
+	},
+});
