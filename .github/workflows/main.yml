@@ -19,8 +19,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install rust (stable)
-        run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -sSf | sh -s -- -y
+      - name: Install rust with rustfmt and clippy
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          components: rustfmt, clippy
 
       - name: Install Deno
         uses: denoland/setup-deno@v2
@@ -84,4 +88,4 @@ jobs:
 
       - name: After Release Test
         if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
-        run: deno test -A --unstable
+        run: deno test -A
