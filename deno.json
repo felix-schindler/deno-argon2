@@ -1,21 +1,18 @@
 {
 	"name": "@felix/argon2",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"exports": "./mod.ts",
 	"tasks": {
-		"samples": "deno run -A ./examples/hash-with-options.ts && deno run -A ./examples/hash.ts && deno run -A ./examples/verify.ts",
+		"samples": "deno run -A ./examples/with-options.ts && deno run -A ./examples/hash.ts && deno run -A ./examples/verify.ts",
 		"ok": "deno fmt --check && deno lint && deno check **/*.ts",
 		"test": "LOCAL=true deno test --allow-read --allow-write --allow-ffi --allow-run --allow-env tests/",
 		"bench": "LOCAL=true deno bench --allow-read --allow-write --allow-ffi --allow-run --allow-env --allow-net=deno.land benchmarks/",
 		"build": "cargo build --release"
 	},
-	"unstable": ["ffi"],
 	"imports": {
-		"@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7",
 		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.0.6",
-		"@std/assert": "jsr:@std/assert@^1.0.3",
-		"@std/io": "jsr:@std/io@^0.224.6",
-		"@felix/argon2": "./mod.ts"
+		"@felix/argon2": "./mod.ts",
+		"@std/assert": "jsr:@std/assert@^1.0.6"
 	},
 	"fmt": {
 		"useTabs": true,
@@ -27,7 +24,6 @@
 		"include": [
 			"LICENSE",
 			"README.md",
-			"cli/**/*.ts",
 			"lib/**/*.ts",
 			"mod.ts"
 		]

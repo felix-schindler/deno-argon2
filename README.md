@@ -94,24 +94,6 @@ Deno.test("User#password should be an argon2id variant password", async () => {
 });
 ```
 
-### CLI
-
-The library can be installed as a CLI tool via `deno install`.
-
-<details>
-
-<summary>Installation snippet</summary>
-
-    ```sh
-    deno install \
-      -A \
-      argon2 jsr:@felix/argon2/cli/argon2
-    ```
-
-</details>
-
-After install run `--help` to inspect all possible commands.
-
 ## Permissions
 
 The library automatically downloads the static library. It requires
@@ -140,8 +122,8 @@ In the [`examples/`](examples/) folder there you can find some usage examples.
 _**Available examples**_
 
 - [Hash](examples/hash.ts)
-- [Hash with options](examples/hash-with-options.ts)
 - [Verify](examples/verify.ts)
+- [Hash and verify with options](examples/with-options.ts)
 
 ## Contributing
 
@@ -151,7 +133,6 @@ _**Available examples**_
 deno-argon2
   ├── lib/         # Core library
   ├── native/      # Native glue code
-  ├── cli/         # CLI wrapper
   ├── tests/       # TypeScript tests
   ├── benchmarks/  # TypeScript benchmarks
   └── examples/    # Development examples

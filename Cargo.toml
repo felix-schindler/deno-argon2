@@ -1,6 +1,6 @@
 [package]
 name = "deno-argon2"
-version = "2.0.1"
+version = "2.0.2"
 authors = ["Felix <webmaster@schindlerfelix.de>", "Federico <code@fdionisi.me>"]
 edition = "2018"
 
