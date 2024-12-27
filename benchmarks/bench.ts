@@ -13,6 +13,7 @@ import {
 } from "jsr:@stdext/crypto@0.0.6/hash";
 import { hash as hash5 } from "jsr:@denosaurs/argontwo@0.2.0";
 import { hash as npmHash, verify as npmVerify } from "npm:argon2";
+import { hash as npmHash2, verify as npmVerify2 } from "npm:@node-rs/argon2";
 
 const encoder = new TextEncoder();
 
@@ -114,6 +115,22 @@ Deno.bench({
 });
 
 Deno.bench({
+	name: "npm:@node-rs/argon2",
+	group: "hashing",
+	async fn() {
+		await npmHash2(password, {
+			memoryCost: mem_cost,
+			timeCost: time_cost,
+			outputLen: hash_length,
+			parallelism: lanes,
+			algorithm: 2,
+			version: 1,
+			salt: bufferSalt,
+		});
+	},
+});
+
+Deno.bench({
 	name: "jsr:@felix/argon2",
 	group: "verifying",
 	baseline: true,
@@ -152,5 +169,13 @@ Deno.bench({
 	baseline: true,
 	async fn() {
 		await npmVerify(hashed, password);
+	},
+});
+
+Deno.bench({
+	name: "npm:@node-rs/argon2",
+	group: "verifying",
+	async fn() {
+		await npmVerify2(hashed, password);
 	},
 });
