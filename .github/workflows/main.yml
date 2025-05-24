@@ -78,6 +78,10 @@ jobs:
         with:
           deno-version: v2.x
 
+      - name: Install gcc for aarch64 builds
+        if: matrix.os == 'ubuntu-latest' && matrix.arch == 'aarch64'
+        run: sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+
       - name: Log versions
         run: |
           deno --version
