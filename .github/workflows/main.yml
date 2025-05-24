@@ -98,7 +98,7 @@ jobs:
             target/${{ matrix.target }}/release/deno_argon2.dll
 
       - name: Publish to JSR
-        if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest' && runner.arch == 'x86_64'
+        if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest'
         run: deno publish
 
       - name: After Release Test
