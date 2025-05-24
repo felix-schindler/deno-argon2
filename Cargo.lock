@@ -68,7 +68,7 @@ dependencies = [
 
 [[package]]
 name = "deno-argon2"
-version = "3.0.0-alpha.2"
+version = "3.0.0-alpha.3"
 dependencies = [
  "argon2",
  "bytes",

@@ -1,6 +1,6 @@
 {
 	"name": "@felix/argon2",
-	"version": "3.0.0-alpha.2",
+	"version": "3.0.0-alpha.3",
 	"exports": "./mod.ts",
 	"tasks": {
 		"samples": "deno run -A ./examples/with-options.ts && deno run -A ./examples/hash.ts && deno run -A ./examples/verify.ts",
