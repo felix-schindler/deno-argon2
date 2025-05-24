@@ -125,7 +125,7 @@ Deno.bench({
 			parallelism: lanes,
 			algorithm: 2,
 			version: 1,
-			salt: bufferSalt,
+			salt: encodedSalt,
 		});
 	},
 });
