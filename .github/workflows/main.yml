@@ -68,6 +68,10 @@ jobs:
         if: matrix.kind == 'test'
         run: cargo build --release --locked
 
+      - name: Test TypeScript
+        if: matrix.kind == 'test'
+        run: deno task test
+
       - name: Rename artifacts for uniqueness
         if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
         run: |
@@ -82,10 +86,6 @@ jobs:
       - name: Lint TypeScript
         if: matrix.kind == 'lint' && matrix.os == 'ubuntu-latest'
         run: deno task ok
-
-      - name: Test TypeScript
-        if: matrix.kind == 'test'
-        run: deno task test
 
       - name: Release
         uses: softprops/action-gh-release@v2
