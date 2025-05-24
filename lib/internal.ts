@@ -5,11 +5,30 @@ import { dlopen, type FetchOptions } from "./deps.ts";
 const LOCAL = Deno.env.get("LOCAL");
 
 /**
+ * Gets the Rust target triple for the current OS and architecture.
+ * @returns The target triple string
+ */
+function getTarget(): string {
+	const arch = Deno.build.arch;
+	const os = Deno.build.os;
+
+	if (os === "windows") {
+		return `${arch}-pc-windows-msvc`;
+	} else if (os === "darwin") {
+		return `${arch}-apple-darwin`;
+	} else if (os === "linux") {
+		return `${arch}-unknown-linux-gnu`;
+	} else {
+		throw new Error(`Unsupported OS: ${os}`);
+	}
+}
+
+/**
  * Generates a local file URL for the target release directory based on the current module's location.
  * @returns The local file path as a string, adjusted for the operating system. On Windows, the path is converted to use backslashes, and any leading slash is removed.
  */
 function getLocalUrl(): string {
-	const url = new URL("../target/release", import.meta.url);
+	const url = new URL(`../target/${getTarget()}/release`, import.meta.url);
 
 	let uri = url.pathname;
 	if (!uri.endsWith("/")) uri += "/";
@@ -30,7 +49,7 @@ function getLocalUrl(): string {
  * Configuration options for fetching the Argon2 module, determining whether to fetch from a local source or a remote URL.
  */
 const FETCH_OPTIONS: FetchOptions = {
-	name: "deno_argon2",
+	name: LOCAL ? "deno_argon2" : "deno_argon2_" + Deno.build.arch,
 	url: LOCAL
 		? getLocalUrl()
 		: `https://github.com/felix-schindler/deno-argon2/releases/download/v${version()}/`,

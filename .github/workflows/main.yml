@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ matrix.kind }} ${{ matrix.os }}
+    name: ${{ matrix.kind }} ${{ matrix.os }} ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     permissions:
@@ -12,8 +12,51 @@ jobs:
       id-token: write # The OIDC ID token is used for authentication with JSR.
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
-        kind: ["test", "lint"]
+        include:
+          # Test jobs for all OS/arch combinations
+          - os: macos-latest
+            arch: x86_64
+            target: x86_64-apple-darwin
+            kind: test
+            lib_name: libdeno_argon2.dylib
+          - os: macos-latest
+            arch: aarch64
+            target: aarch64-apple-darwin
+            kind: test
+            lib_name: libdeno_argon2.dylib
+          - os: windows-latest
+            arch: x86_64
+            target: x86_64-pc-windows-msvc
+            kind: test
+            lib_name: deno_argon2.dll
+          - os: windows-latest
+            arch: aarch64
+            target: aarch64-pc-windows-msvc
+            kind: test
+            lib_name: deno_argon2.dll
+          - os: ubuntu-latest
+            arch: x86_64
+            target: x86_64-unknown-linux-gnu
+            kind: test
+            lib_name: libdeno_argon2.so
+          - os: ubuntu-latest
+            arch: aarch64
+            target: aarch64-unknown-linux-gnu
+            kind: test
+            lib_name: libdeno_argon2.so
+          # Lint jobs (only need one per OS, use x86_64)
+          - os: macos-latest
+            arch: x86_64
+            target: x86_64-apple-darwin
+            kind: lint
+          - os: windows-latest
+            arch: x86_64
+            target: x86_64-pc-windows-msvc
+            kind: lint
+          - os: ubuntu-latest
+            arch: x86_64
+            target: x86_64-unknown-linux-gnu
+            kind: lint
 
     steps:
       - name: Checkout repository
@@ -25,6 +68,10 @@ jobs:
           profile: minimal
           toolchain: stable
           components: rustfmt, clippy
+
+      - name: Install cross-compilation target
+        if: matrix.kind == 'test'
+        run: rustup target add ${{ matrix.target }}
 
       - name: Install Deno
         uses: denoland/setup-deno@v2
@@ -53,7 +100,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: target
-          key: ${{ matrix.kind }}-${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.kind }}-${{ runner.os }}-${{ matrix.arch }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Clippy
         if: matrix.kind == 'lint'
@@ -61,7 +108,22 @@ jobs:
 
       - name: Build
         if: matrix.kind == 'test'
-        run: cargo build --release --locked
+        run: cargo build --release --locked --target ${{ matrix.target }}
+
+      - name: Rename library file
+        if: matrix.kind == 'test'
+        shell: bash
+        run: |
+          source_path="target/${{ matrix.target }}/release/${{ matrix.lib_name }}"
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            dest_name="deno_argon2_${{ matrix.arch }}.dll"
+          elif [[ "${{ matrix.os }}" == "macos-latest" ]]; then
+            dest_name="libdeno_argon2_${{ matrix.arch }}.dylib"
+          else
+            dest_name="libdeno_argon2_${{ matrix.arch }}.so"
+          fi
+          dest_path="target/${{ matrix.target }}/release/$dest_name"
+          cp "$source_path" "$dest_path"
 
       - name: Lint TypeScript
         if: matrix.kind == 'lint' && matrix.os == 'ubuntu-latest'
@@ -78,14 +140,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
         with:
           files: |
-            target/release/libdeno_argon2.dylib
-            target/release/libdeno_argon2.so
-            target/release/deno_argon2.dll
+            target/${{ matrix.target }}/release/libdeno_argon2_${{ matrix.arch }}.dylib
+            target/${{ matrix.target }}/release/libdeno_argon2_${{ matrix.arch }}.so
+            target/${{ matrix.target }}/release/deno_argon2_${{ matrix.arch }}.dll
 
       - name: Publish to JSR
-        if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
-        run: npx jsr publish
+        if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/') && matrix.os == 'ubuntu-latest' && matrix.arch == 'x86_64'
+        run: deno publish
 
       - name: After Release Test
         if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
-        run: deno test -A
+        run: deno test -
