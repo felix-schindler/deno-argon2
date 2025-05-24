@@ -131,12 +131,11 @@ fn hash_internal(params_buf: &[u8]) -> Result<String, Error> {
         params.options.lanes.unwrap_or(1),
         params.options.hash_length.map(|h| h as usize),
     )
-    .map_err(|e| Error::Argon2(e))?;
+    .map_err(Error::Argon2)?;
 
     // Create Argon2 instance
     let argon2 = if let Some(ref secret) = params.options.secret {
-        Argon2::new_with_secret(secret, algorithm, version, argon2_params)
-            .map_err(|e| Error::Argon2(e))?
+        Argon2::new_with_secret(secret, algorithm, version, argon2_params).map_err(Error::Argon2)?
     } else {
         Argon2::new(algorithm, version, argon2_params)
     };
@@ -195,13 +194,11 @@ fn verify_internal(params_buf: &[u8]) -> Result<bool, Error> {
         .and_then(|p| p.decimal().ok())
         .unwrap_or(1) as u32;
 
-    let argon2_params =
-        Params::new(memory_cost, time_cost, lanes, None).map_err(|e| Error::Argon2(e))?;
+    let argon2_params = Params::new(memory_cost, time_cost, lanes, None).map_err(Error::Argon2)?;
 
     // Create Argon2 instance
     let argon2 = if let Some(ref secret) = options.secret {
-        Argon2::new_with_secret(secret, algorithm, version, argon2_params)
-            .map_err(|e| Error::Argon2(e))?
+        Argon2::new_with_secret(secret, algorithm, version, argon2_params).map_err(Error::Argon2)?
     } else {
         Argon2::new(algorithm, version, argon2_params)
     };
