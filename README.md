@@ -6,7 +6,7 @@ longer actively maintained.
 
 Fastest [Argon2](https://github.com/P-H-C/phc-winner-argon2) hashing library for
 [Deno](https://deno.com). It uses
-[rust-argon2](https://github.com/sru-systems/rust-argon2) via
+[argon2](https://github.com/RustCrypto/password-hashes/tree/master/argon2) via
 [Deno FFI](https://docs.deno.com/runtime/reference/deno_namespace_apis/#ffi)
 which requires Deno v1.30.0 or higher.
 
