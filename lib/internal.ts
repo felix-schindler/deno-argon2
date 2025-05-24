@@ -27,10 +27,22 @@ function getLocalUrl(): string {
 }
 
 /**
+ * Returns a short architecture name based on the current Deno build architecture.
+ */
+function archShort(): string {
+	switch (Deno.build.arch) {
+		case "aarch64":
+			return "ARM64";
+		case "x86_64":
+			return "X64";
+	}
+}
+
+/**
  * Configuration options for fetching the Argon2 module, determining whether to fetch from a local source or a remote URL.
  */
 const FETCH_OPTIONS: FetchOptions = {
-	name: LOCAL ? "deno_argon2" : "deno_argon2-" + Deno.build.arch,
+	name: LOCAL ? "deno_argon2" : "deno_argon2-" + archShort(),
 	url: LOCAL
 		? getLocalUrl()
 		: `https://github.com/felix-schindler/deno-argon2/releases/download/v${version()}/`,
