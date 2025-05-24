@@ -10,9 +10,9 @@
 		"build": "cargo build --release"
 	},
 	"imports": {
-		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.0.6",
+		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.1.0",
 		"@felix/argon2": "./mod.ts",
-		"@std/assert": "jsr:@std/assert@^1.0.10"
+		"@std/assert": "jsr:@std/assert@^1.0.13"
 	},
 	"fmt": {
 		"useTabs": true,
