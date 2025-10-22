@@ -1,7 +1,9 @@
 {
+	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
 	"name": "@felix/argon2",
 	"version": "3.0.2",
 	"exports": "./mod.ts",
+	"nodeModulesDir": "auto",
 	"tasks": {
 		"samples": "deno run -A ./examples/with-options.ts && deno run -A ./examples/hash.ts && deno run -A ./examples/verify.ts",
 		"ok": "deno fmt --check && deno lint && deno check **/*.ts",
@@ -10,9 +12,15 @@
 		"build": "cargo build --release"
 	},
 	"imports": {
+		"@denosaurs/argontwo": "jsr:@denosaurs/argontwo@0.2.0",
 		"@denosaurs/plug": "jsr:@denosaurs/plug@^1.1.0",
 		"@felix/argon2": "./mod.ts",
-		"@std/assert": "jsr:@std/assert@^1.0.13"
+		"@node-rs/argon2": "npm:@node-rs/argon2@^2.0.2",
+		"@rabbit-company/argon2id": "jsr:@rabbit-company/argon2id@^2.1.0",
+		"@std/assert": "jsr:@std/assert@^1.0.13",
+		"@stdext/crypto": "jsr:@stdext/crypto@^0.1.0",
+		"@ts-rex/argon2": "jsr:@ts-rex/argon2@^1.0.3",
+		"argon2": "npm:argon2@^0.44.0"
 	},
 	"fmt": {
 		"useTabs": true,

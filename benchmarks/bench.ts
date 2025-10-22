@@ -5,15 +5,12 @@ import {
 	verify as myVerify,
 	Version,
 } from "@felix/argon2";
-import { hash as hash2, verify as verify2 } from "jsr:@ts-rex/argon2";
-import argon2id_3 from "jsr:@rabbit-company/argon2id";
-import {
-	hash as hash4,
-	verify as verify4,
-} from "jsr:@stdext/crypto@0.0.6/hash";
-import { hash as hash5 } from "jsr:@denosaurs/argontwo@0.2.0";
-import { hash as npmHash, verify as npmVerify } from "npm:argon2";
-import { hash as npmHash2, verify as npmVerify2 } from "npm:@node-rs/argon2";
+import { hash as hash2, verify as verify2 } from "@ts-rex/argon2";
+import argon2id_3 from "@rabbit-company/argon2id";
+import { hash as hash4, verify as verify4 } from "@stdext/crypto/hash";
+import { hash as hash5 } from "@denosaurs/argontwo";
+import { hash as npmHash, verify as npmVerify } from "argon2";
+import { hash as npmHash2, verify as npmVerify2 } from "@node-rs/argon2";
 
 const encoder = new TextEncoder();
 
