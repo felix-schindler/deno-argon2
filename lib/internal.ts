@@ -42,9 +42,7 @@ function archShort(): string {
  * Configuration options for fetching the Argon2 module, determining whether to fetch from a local source or a remote URL.
  */
 const FETCH_OPTIONS: FetchOptions = {
-	name: LOCAL
-		? "deno_argon2"
-		: "deno_argon2-" + archShort(),
+	name: LOCAL ? "deno_argon2" : "deno_argon2-" + archShort(),
 	url: LOCAL
 		? getLocalUrl()
 		: `https://github.com/felix-schindler/deno-argon2/releases/download/v${version()}/`,
