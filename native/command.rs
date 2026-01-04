@@ -64,7 +64,7 @@ fn pack_into_buf(s: &str) -> *const u8 {
 
 #[no_mangle]
 pub extern "C" fn free_buf(ptr: *mut u8, len: usize) {
-    drop(unsafe { Box::from_raw(std::slice::from_raw_parts_mut(ptr, len)) });
+    drop(unsafe { Box::from_raw(std::ptr::slice_from_raw_parts_mut(ptr, len)) });
 }
 
 #[no_mangle]
