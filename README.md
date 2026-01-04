@@ -18,46 +18,46 @@ library).
 
 ```
 CPU | Apple M2 Pro
-Runtime | Deno 2.3.3 (aarch64-apple-darwin)
+Runtime | Deno 2.6.3 (aarch64-apple-darwin)
 
 file://[redacted]/deno-argon2/benchmarks/bench.ts
 
-benchmark                      time/iter (avg)        iter/s      (min … max)           p75      p99     p995
------------------------------- ----------------------------- --------------------- --------------------------
+| benchmark                      | time/iter (avg) |        iter/s |      (min … max)      |      p75 |      p99 |     p995 |
+| ------------------------------ | --------------- | ------------- | --------------------- | -------- | -------- | -------- |
 
 group hashing
-jsr:@felix/argon2                      13.8 ms          72.3 ( 13.2 ms …  16.1 ms)  14.0 ms  16.1 ms  16.1 ms
-jsr:@ts-rex/argon2                     43.5 ms          23.0 ( 42.4 ms …  45.0 ms)  44.2 ms  45.0 ms  45.0 ms
-jsr:@rabbit-company/argon2id           42.0 ms          23.8 ( 41.2 ms …  43.5 ms)  42.3 ms  43.5 ms  43.5 ms
-jsr:@stdext/crypto                     38.6 ms          25.9 ( 37.7 ms …  39.4 ms)  39.3 ms  39.4 ms  39.4 ms
-jsr:@denosaurs/argontwo                43.4 ms          23.1 ( 42.3 ms …  44.7 ms)  44.1 ms  44.7 ms  44.7 ms
-npm:argon2                             19.3 ms          51.7 ( 18.4 ms …  21.1 ms)  19.7 ms  21.1 ms  21.1 ms
-npm:@node-rs/argon2                    14.6 ms          68.5 ( 13.1 ms …  26.3 ms)  14.8 ms  26.3 ms  26.3 ms
+| jsr:@felix/argon2              |         13.5 ms |          74.1 | ( 12.5 ms …  28.7 ms) |  13.2 ms |  28.7 ms |  28.7 ms |
+| jsr:@ts-rex/argon2             |         43.4 ms |          23.0 | ( 42.8 ms …  44.7 ms) |  43.5 ms |  44.7 ms |  44.7 ms |
+| jsr:@rabbit-company/argon2id   |         42.7 ms |          23.4 | ( 41.4 ms …  46.1 ms) |  43.3 ms |  46.1 ms |  46.1 ms |
+| jsr:@stdext/crypto             |         39.0 ms |          25.6 | ( 37.8 ms …  41.1 ms) |  39.4 ms |  41.1 ms |  41.1 ms |
+| jsr:@denosaurs/argontwo        |         44.0 ms |          22.7 | ( 42.9 ms …  46.2 ms) |  44.8 ms |  46.2 ms |  46.2 ms |
+| npm:argon2                     |         19.8 ms |          50.4 | ( 18.0 ms …  21.3 ms) |  20.4 ms |  21.3 ms |  21.3 ms |
+| npm:@node-rs/argon2            |         14.5 ms |          68.9 | ( 13.2 ms …  19.1 ms) |  14.9 ms |  19.1 ms |  19.1 ms |
 
 summary
-jsr:@felix/argon2
- 1.05x faster than npm:@node-rs/argon2
- 1.40x faster than npm:argon2
- 2.79x faster than jsr:@stdext/crypto
- 3.04x faster than jsr:@rabbit-company/argon2id
- 3.14x faster than jsr:@denosaurs/argontwo
- 3.15x faster than jsr:@ts-rex/argon2
+  jsr:@felix/argon2
+     1.08x faster than npm:@node-rs/argon2
+     1.47x faster than npm:argon2
+     2.89x faster than jsr:@stdext/crypto
+     3.17x faster than jsr:@rabbit-company/argon2id
+     3.22x faster than jsr:@ts-rex/argon2
+     3.27x faster than jsr:@denosaurs/argontwo
 
 group verifying
-jsr:@felix/argon2                      14.8 ms          67.8 ( 13.4 ms …  16.4 ms)  15.2 ms  16.4 ms  16.4 ms
-jsr:@ts-rex/argon2                     43.3 ms          23.1 ( 42.1 ms …  44.9 ms)  43.8 ms  44.9 ms  44.9 ms
-jsr:@rabbit-company/argon2id           44.1 ms          22.7 ( 41.6 ms …  46.0 ms)  45.1 ms  46.0 ms  46.0 ms
-jsr:@stdext/crypto                     39.1 ms          25.6 ( 38.0 ms …  41.3 ms)  39.5 ms  41.3 ms  41.3 ms
-npm:argon2                             19.3 ms          51.8 ( 18.5 ms …  22.1 ms)  19.5 ms  22.1 ms  22.1 ms
-npm:@node-rs/argon2                    13.6 ms          73.8 ( 13.1 ms …  15.7 ms)  13.8 ms  15.7 ms  15.7 ms
+| jsr:@felix/argon2              |         13.4 ms |          74.8 | ( 12.6 ms …  14.5 ms) |  13.9 ms |  14.5 ms |  14.5 ms |
+| jsr:@ts-rex/argon2             |         43.2 ms |          23.2 | ( 42.2 ms …  45.6 ms) |  43.7 ms |  45.6 ms |  45.6 ms |
+| jsr:@rabbit-company/argon2id   |         42.1 ms |          23.7 | ( 41.1 ms …  45.6 ms) |  42.6 ms |  45.6 ms |  45.6 ms |
+| jsr:@stdext/crypto             |         37.8 ms |          26.5 | ( 37.5 ms …  39.5 ms) |  37.7 ms |  39.5 ms |  39.5 ms |
+| npm:argon2                     |         18.0 ms |          55.5 | ( 17.8 ms …  19.7 ms) |  18.0 ms |  19.7 ms |  19.7 ms |
+| npm:@node-rs/argon2            |         17.4 ms |          57.5 | ( 13.1 ms …  53.5 ms) |  16.9 ms |  53.5 ms |  53.5 ms |
 
 summary
-jsr:@felix/argon2
- 1.09x slower than npm:@node-rs/argon2
- 1.31x faster than npm:argon2
- 2.65x faster than jsr:@stdext/crypto
- 2.94x faster than jsr:@ts-rex/argon2
- 2.99x faster than jsr:@rabbit-company/argon2id
+  jsr:@felix/argon2
+     1.30x faster than npm:@node-rs/argon2
+     1.35x faster than npm:argon2
+     2.83x faster than jsr:@stdext/crypto
+     3.15x faster than jsr:@rabbit-company/argon2id
+     3.23x faster than jsr:@ts-rex/argon2
 ```
 
 ## API
