@@ -274,22 +274,14 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@denosaurs/argontwo@0.2.0",
       "jsr:@denosaurs/plug@^1.1.0",
-      "jsr:@std/assert@^1.0.18"
-    ],
-    "members": {
-      "benchmarks": {
-        "dependencies": [
-          "jsr:@denosaurs/argontwo@0.2.0",
-          "jsr:@denosaurs/plug@^1.1.0",
-          "jsr:@rabbit-company/argon2id@^2.1.0",
-          "jsr:@std/assert@^1.0.18",
-          "jsr:@stdext/crypto@0.1",
-          "jsr:@ts-rex/argon2@^1.0.3",
-          "npm:@node-rs/argon2@^2.0.2",
-          "npm:argon2@0.44"
-        ]
-      }
-    }
+      "jsr:@rabbit-company/argon2id@^2.1.0",
+      "jsr:@std/assert@^1.0.18",
+      "jsr:@stdext/crypto@0.1",
+      "jsr:@ts-rex/argon2@^1.0.3",
+      "npm:@node-rs/argon2@^2.0.2",
+      "npm:argon2@0.44"
+    ]
   }
 }
