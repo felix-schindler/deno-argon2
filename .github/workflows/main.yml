@@ -76,6 +76,7 @@ jobs:
 
       - name: Rename artifacts for uniqueness
         if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
+        shell: bash
         run: |
           case "${{ runner.os }}" in
             Linux)   ext=so;   prefix=lib;;
