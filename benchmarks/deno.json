@@ -1,5 +1,9 @@
 {
 	"$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+	"nodeModulesDir": "auto",
+	"tasks": {
+		"bench": "LOCAL=true deno bench --allow-read --allow-write --allow-ffi --allow-env ."
+	},
 	"fmt": {
 		"useTabs": true
 	},
@@ -13,5 +17,6 @@
 		"@stdext/crypto": "jsr:@stdext/crypto@^0.1.0",
 		"@ts-rex/argon2": "jsr:@ts-rex/argon2@^1.0.3",
 		"argon2": "npm:argon2@^0.44.0"
-	}
+	},
+	"allowScripts": ["npm:argon2@0.44.0"]
 }

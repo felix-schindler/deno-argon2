@@ -1,54 +1,30 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@denosaurs/argontwo@0.2.0": "0.2.0",
-    "jsr:@denosaurs/lz4@0.1.4": "0.1.4",
     "jsr:@denosaurs/plug@^1.1.0": "1.1.0",
-    "jsr:@rabbit-company/argon2id@^2.1.0": "2.1.0",
     "jsr:@std/assert@^1.0.18": "1.0.18",
-    "jsr:@std/encoding@0.221": "0.221.0",
     "jsr:@std/encoding@1": "1.0.10",
     "jsr:@std/fmt@1": "1.0.8",
     "jsr:@std/fs@1": "1.0.21",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@std/path@1": "1.1.4",
-    "jsr:@std/path@^1.1.4": "1.1.4",
-    "jsr:@stdext/crypto@0.1": "0.1.0",
-    "jsr:@ts-rex/argon2@^1.0.3": "1.0.3",
-    "npm:@node-rs/argon2@^2.0.2": "2.0.2",
-    "npm:argon2@0.44": "0.44.0"
+    "jsr:@std/path@^1.1.4": "1.1.4"
   },
   "jsr": {
-    "@denosaurs/argontwo@0.2.0": {
-      "integrity": "1ce2f4c90ba3643e6fffd0d9be059f7cacfb62cf1b314049b6c7c71d87cb92a1",
-      "dependencies": [
-        "jsr:@denosaurs/lz4",
-        "jsr:@std/encoding@0.221"
-      ]
-    },
-    "@denosaurs/lz4@0.1.4": {
-      "integrity": "ad5d556c02eb01fe1e0f2e953d7be066a14870afe149b1aed1ced019460f6aa1"
-    },
     "@denosaurs/plug@1.1.0": {
       "integrity": "eb2f0b7546c7bca2000d8b0282c54d50d91cf6d75cb26a80df25a6de8c4bc044",
       "dependencies": [
-        "jsr:@std/encoding@1",
+        "jsr:@std/encoding",
         "jsr:@std/fmt",
         "jsr:@std/fs",
         "jsr:@std/path@1"
       ]
-    },
-    "@rabbit-company/argon2id@2.1.0": {
-      "integrity": "2c940d0b7abb05a705eb66e972946229d168a434113c3fb745093a135f7c811f"
     },
     "@std/assert@1.0.18": {
       "integrity": "270245e9c2c13b446286de475131dc688ca9abcd94fc5db41d43a219b34d1c78",
       "dependencies": [
         "jsr:@std/internal"
       ]
-    },
-    "@std/encoding@0.221.0": {
-      "integrity": "d1dd76ef0dc5d14088411e6dc1dede53bf8308c95d1537df1214c97137208e45"
     },
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
@@ -71,225 +47,12 @@
       "dependencies": [
         "jsr:@std/internal"
       ]
-    },
-    "@stdext/crypto@0.1.0": {
-      "integrity": "05dc9e754c2529574d8bf98bd40c7dc468a02dcb2fa5e8644fff6813ceab66a4",
-      "dependencies": [
-        "jsr:@std/encoding@1"
-      ]
-    },
-    "@ts-rex/argon2@1.0.3": {
-      "integrity": "ee66cc43e95753b5fb42f5e3180ddebb451b1e59db1931c96d2b66cb5d405587"
-    }
-  },
-  "npm": {
-    "@emnapi/core@1.8.1": {
-      "integrity": "sha512-AvT9QFpxK0Zd8J0jopedNm+w/2fIzvtPKPjqyw9jwvBaReTTqPBk9Hixaz7KbjimP+QNz605/XnjFcDAL2pqBg==",
-      "dependencies": [
-        "@emnapi/wasi-threads",
-        "tslib"
-      ]
-    },
-    "@emnapi/runtime@1.8.1": {
-      "integrity": "sha512-mehfKSMWjjNol8659Z8KxEMrdSJDDot5SXMq00dM8BN4o+CLNXQ0xH2V7EchNHV4RmbZLmmPdEaXZc5H2FXmDg==",
-      "dependencies": [
-        "tslib"
-      ]
-    },
-    "@emnapi/wasi-threads@1.1.0": {
-      "integrity": "sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==",
-      "dependencies": [
-        "tslib"
-      ]
-    },
-    "@epic-web/invariant@1.0.0": {
-      "integrity": "sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA=="
-    },
-    "@napi-rs/wasm-runtime@0.2.12": {
-      "integrity": "sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==",
-      "dependencies": [
-        "@emnapi/core",
-        "@emnapi/runtime",
-        "@tybys/wasm-util"
-      ]
-    },
-    "@node-rs/argon2-android-arm-eabi@2.0.2": {
-      "integrity": "sha512-DV/H8p/jt40lrao5z5g6nM9dPNPGEHL+aK6Iy/og+dbL503Uj0AHLqj1Hk9aVUSCNnsDdUEKp4TVMi0YakDYKw==",
-      "os": ["android"],
-      "cpu": ["arm"]
-    },
-    "@node-rs/argon2-android-arm64@2.0.2": {
-      "integrity": "sha512-1LKwskau+8O1ktKx7TbK7jx1oMOMt4YEXZOdSNIar1TQKxm6isZ0cRXgHLibPHEcNHgYRsJWDE9zvDGBB17QDg==",
-      "os": ["android"],
-      "cpu": ["arm64"]
-    },
-    "@node-rs/argon2-darwin-arm64@2.0.2": {
-      "integrity": "sha512-3TTNL/7wbcpNju5YcqUrCgXnXUSbD7ogeAKatzBVHsbpjZQbNb1NDxDjqqrWoTt6XL3z9mJUMGwbAk7zQltHtA==",
-      "os": ["darwin"],
-      "cpu": ["arm64"]
-    },
-    "@node-rs/argon2-darwin-x64@2.0.2": {
-      "integrity": "sha512-vNPfkLj5Ij5111UTiYuwgxMqE7DRbOS2y58O2DIySzSHbcnu+nipmRKg+P0doRq6eKIJStyBK8dQi5Ic8pFyDw==",
-      "os": ["darwin"],
-      "cpu": ["x64"]
-    },
-    "@node-rs/argon2-freebsd-x64@2.0.2": {
-      "integrity": "sha512-M8vQZk01qojQfCqQU0/O1j1a4zPPrz93zc9fSINY7Q/6RhQRBCYwDw7ltDCZXg5JRGlSaeS8cUXWyhPGar3cGg==",
-      "os": ["freebsd"],
-      "cpu": ["x64"]
-    },
-    "@node-rs/argon2-linux-arm-gnueabihf@2.0.2": {
-      "integrity": "sha512-7EmmEPHLzcu0G2GDh30L6G48CH38roFC2dqlQJmtRCxs6no3tTE/pvgBGatTp/o2n2oyOJcfmgndVFcUpwMnww==",
-      "os": ["linux"],
-      "cpu": ["arm"]
-    },
-    "@node-rs/argon2-linux-arm64-gnu@2.0.2": {
-      "integrity": "sha512-6lsYh3Ftbk+HAIZ7wNuRF4SZDtxtFTfK+HYFAQQyW7Ig3LHqasqwfUKRXVSV5tJ+xTnxjqgKzvZSUJCAyIfHew==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
-    "@node-rs/argon2-linux-arm64-musl@2.0.2": {
-      "integrity": "sha512-p3YqVMNT/4DNR67tIHTYGbedYmXxW9QlFmF39SkXyEbGQwpgSf6pH457/fyXBIYznTU/smnG9EH+C1uzT5j4hA==",
-      "os": ["linux"],
-      "cpu": ["arm64"]
-    },
-    "@node-rs/argon2-linux-x64-gnu@2.0.2": {
-      "integrity": "sha512-ZM3jrHuJ0dKOhvA80gKJqBpBRmTJTFSo2+xVZR+phQcbAKRlDMSZMFDiKbSTnctkfwNFtjgDdh5g1vaEV04AvA==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "@node-rs/argon2-linux-x64-musl@2.0.2": {
-      "integrity": "sha512-of5uPqk7oCRF/44a89YlWTEfjsftPywyTULwuFDKyD8QtVZoonrJR6ZWvfFE/6jBT68S0okAkAzzMEdBVWdxWw==",
-      "os": ["linux"],
-      "cpu": ["x64"]
-    },
-    "@node-rs/argon2-wasm32-wasi@2.0.2": {
-      "integrity": "sha512-U3PzLYKSQYzTERstgtHLd4ZTkOF9co57zTXT77r0cVUsleGZOrd6ut7rHzeWwoJSiHOVxxa0OhG1JVQeB7lLoQ==",
-      "dependencies": [
-        "@napi-rs/wasm-runtime"
-      ],
-      "cpu": ["wasm32"]
-    },
-    "@node-rs/argon2-win32-arm64-msvc@2.0.2": {
-      "integrity": "sha512-Eisd7/NM0m23ijrGr6xI2iMocdOuyl6gO27gfMfya4C5BODbUSP7ljKJ7LrA0teqZMdYHesRDzx36Js++/vhiQ==",
-      "os": ["win32"],
-      "cpu": ["arm64"]
-    },
-    "@node-rs/argon2-win32-ia32-msvc@2.0.2": {
-      "integrity": "sha512-GsE2ezwAYwh72f9gIjbGTZOf4HxEksb5M2eCaj+Y5rGYVwAdt7C12Q2e9H5LRYxWcFvLH4m4jiSZpQQ4upnPAQ==",
-      "os": ["win32"],
-      "cpu": ["ia32"]
-    },
-    "@node-rs/argon2-win32-x64-msvc@2.0.2": {
-      "integrity": "sha512-cJxWXanH4Ew9CfuZ4IAEiafpOBCe97bzoKowHCGk5lG/7kR4WF/eknnBlHW9m8q7t10mKq75kruPLtbSDqgRTw==",
-      "os": ["win32"],
-      "cpu": ["x64"]
-    },
-    "@node-rs/argon2@2.0.2": {
-      "integrity": "sha512-t64wIsPEtNd4aUPuTAyeL2ubxATCBGmeluaKXEMAFk/8w6AJIVVkeLKMBpgLW6LU2t5cQxT+env/c6jxbtTQBg==",
-      "optionalDependencies": [
-        "@node-rs/argon2-android-arm-eabi",
-        "@node-rs/argon2-android-arm64",
-        "@node-rs/argon2-darwin-arm64",
-        "@node-rs/argon2-darwin-x64",
-        "@node-rs/argon2-freebsd-x64",
-        "@node-rs/argon2-linux-arm-gnueabihf",
-        "@node-rs/argon2-linux-arm64-gnu",
-        "@node-rs/argon2-linux-arm64-musl",
-        "@node-rs/argon2-linux-x64-gnu",
-        "@node-rs/argon2-linux-x64-musl",
-        "@node-rs/argon2-wasm32-wasi",
-        "@node-rs/argon2-win32-arm64-msvc",
-        "@node-rs/argon2-win32-ia32-msvc",
-        "@node-rs/argon2-win32-x64-msvc"
-      ]
-    },
-    "@phc/format@1.0.0": {
-      "integrity": "sha512-m7X9U6BG2+J+R1lSOdCiITLLrxm+cWlNI3HUFA92oLO77ObGNzaKdh8pMLqdZcshtkKuV84olNNXDfMc4FezBQ=="
-    },
-    "@tybys/wasm-util@0.10.1": {
-      "integrity": "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==",
-      "dependencies": [
-        "tslib"
-      ]
-    },
-    "argon2@0.44.0": {
-      "integrity": "sha512-zHPGN3S55sihSQo0dBbK0A5qpi2R31z7HZDZnry3ifOyj8bZZnpZND2gpmhnRGO1V/d555RwBqIK5W4Mrmv3ig==",
-      "dependencies": [
-        "@phc/format",
-        "cross-env",
-        "node-addon-api",
-        "node-gyp-build"
-      ],
-      "scripts": true
-    },
-    "cross-env@10.1.0": {
-      "integrity": "sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==",
-      "dependencies": [
-        "@epic-web/invariant",
-        "cross-spawn"
-      ],
-      "bin": true
-    },
-    "cross-spawn@7.0.6": {
-      "integrity": "sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==",
-      "dependencies": [
-        "path-key",
-        "shebang-command",
-        "which"
-      ]
-    },
-    "isexe@2.0.0": {
-      "integrity": "sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw=="
-    },
-    "node-addon-api@8.5.0": {
-      "integrity": "sha512-/bRZty2mXUIFY/xU5HLvveNHlswNJej+RnxBjOMkidWfwZzgTbPG1E3K5TOxRLOR+5hX7bSofy8yf1hZevMS8A=="
-    },
-    "node-gyp-build@4.8.4": {
-      "integrity": "sha512-LA4ZjwlnUblHVgq0oBF3Jl/6h/Nvs5fzBLwdEF4nuxnFdsfajde4WfxtJr3CaiH+F6ewcIB/q4jQ4UzPyid+CQ==",
-      "bin": true
-    },
-    "path-key@3.1.1": {
-      "integrity": "sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q=="
-    },
-    "shebang-command@2.0.0": {
-      "integrity": "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==",
-      "dependencies": [
-        "shebang-regex"
-      ]
-    },
-    "shebang-regex@3.0.0": {
-      "integrity": "sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A=="
-    },
-    "tslib@2.8.1": {
-      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
-    },
-    "which@2.0.2": {
-      "integrity": "sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==",
-      "dependencies": [
-        "isexe"
-      ],
-      "bin": true
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@denosaurs/plug@^1.1.0",
       "jsr:@std/assert@^1.0.18"
-    ],
-    "members": {
-      "benchmarks": {
-        "dependencies": [
-          "jsr:@denosaurs/argontwo@0.2.0",
-          "jsr:@denosaurs/plug@^1.1.0",
-          "jsr:@rabbit-company/argon2id@^2.1.0",
-          "jsr:@std/assert@^1.0.18",
-          "jsr:@stdext/crypto@0.1",
-          "jsr:@ts-rex/argon2@^1.0.3",
-          "npm:@node-rs/argon2@^2.0.2",
-          "npm:argon2@0.44"
-        ]
-      }
-    }
+    ]
   }
 }
