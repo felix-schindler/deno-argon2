@@ -8,7 +8,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     permissions:
-      contents: read
+      contents: write
       id-token: write # The OIDC ID token is used for authentication with JSR.
     strategy:
       matrix:
@@ -93,8 +93,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v3
         if: matrix.kind == 'test' && startsWith(github.ref, 'refs/tags/')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_REPO_TOKEN }}
         with:
           files: |
             target/${{ matrix.target }}/release/libdeno_argon2-${{ runner.arch }}.dylib
