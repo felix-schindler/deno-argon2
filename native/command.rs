@@ -1,6 +1,6 @@
 use argon2::{
-    password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString},
     Algorithm, Argon2, Params, Version as Argon2Version,
+    password_hash::{PasswordHasher, PasswordVerifier, phc::PasswordHash},
 };
 use bytes::Bytes;
 use serde::{Deserialize, Serialize};
@@ -109,7 +109,6 @@ pub extern "C" fn verify(ptr: *const u8, len: usize) -> *const u8 {
 
 fn hash_internal(params_buf: &[u8]) -> Result<String, Error> {
     let params: HashParams = serde_json::from_slice(params_buf)?;
-    let salt_bytes = &params.options.salt;
 
     // Parse algorithm variant
     let algorithm = match params.options.variant.as_deref() {
@@ -140,10 +139,9 @@ fn hash_internal(params_buf: &[u8]) -> Result<String, Error> {
         Argon2::new(algorithm, version, argon2_params)
     };
 
-    // Create salt from bytes - need to encode as base64
-    let salt_b64 = base64_encode_no_pad(salt_bytes);
-    let salt =
-        SaltString::from_b64(&salt_b64).map_err(|_| Error::Argon2(argon2::Error::SaltTooShort))?;
+    // `hash_password_with_salt` takes raw salt bytes
+    // (it encodes to B64 internally), so no manual base64 step is needed.
+    let salt_bytes: &[u8] = &params.options.salt;
 
     // Hash password
     let password_to_hash = if let Some(ref data) = params.options.data {
@@ -156,7 +154,7 @@ fn hash_internal(params_buf: &[u8]) -> Result<String, Error> {
     };
 
     let password_hash = argon2
-        .hash_password(&password_to_hash, &salt)
+        .hash_password_with_salt(&password_to_hash, salt_bytes)
         .map_err(|_| Error::Argon2(argon2::Error::OutputTooShort))?;
 
     Ok(password_hash.to_string())
@@ -218,39 +216,4 @@ fn verify_internal(params_buf: &[u8]) -> Result<bool, Error> {
         .is_ok();
 
     Ok(result)
-}
-
-fn base64_encode_no_pad(input: &[u8]) -> String {
-    const CHARS: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-    let mut result = String::new();
-    let mut i = 0;
-
-    while i + 2 < input.len() {
-        let b1 = input[i];
-        let b2 = input[i + 1];
-        let b3 = input[i + 2];
-
-        result.push(CHARS[(b1 >> 2) as usize] as char);
-        result.push(CHARS[(((b1 & 0x03) << 4) | (b2 >> 4)) as usize] as char);
-        result.push(CHARS[(((b2 & 0x0f) << 2) | (b3 >> 6)) as usize] as char);
-        result.push(CHARS[(b3 & 0x3f) as usize] as char);
-
-        i += 3;
-    }
-
-    if i < input.len() {
-        let b1 = input[i];
-        result.push(CHARS[(b1 >> 2) as usize] as char);
-
-        if i + 1 < input.len() {
-            let b2 = input[i + 1];
-            result.push(CHARS[(((b1 & 0x03) << 4) | (b2 >> 4)) as usize] as char);
-            result.push(CHARS[((b2 & 0x0f) << 2) as usize] as char);
-        } else {
-            result.push(CHARS[((b1 & 0x03) << 4) as usize] as char);
-        }
-    }
-
-    result
 }
