@@ -55,5 +55,5 @@ export interface HashOptions<T extends {} = {}> {
  * Returns the current version of the library.
  */
 export function version(): string {
-	return "3.0.6";
+	return "3.1.0";
 }
